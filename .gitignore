@@ -1,0 +1,274 @@
+# ============================================
+# Doccano .gitignore - Security & Best Practices
+# ============================================
+
+# ============================================
+# CRITICAL: SENSITIVE FILES - NEVER COMMIT!
+# ============================================
+.env
+.env.local
+.env.production
+.env.*.local
+*.key
+*.pem
+*.p12
+*.crt
+*.csr
+secrets.json
+secrets/
+.secrets/
+
+# ============================================
+# Python
+# ============================================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+junitxml/
+
+# Translations
+*.mo
+*.pot
+
+# Django / Backend
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+*.db
+staticfiles/
+
+# Celery beat schedule file
+celerybeat-schedule
+celerybeat.pid
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# SageMath parsed files
+*.sage.py
+
+# Virtual Environments
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+poetry.lock
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pylint
+.pylint.d/
+
+# ============================================
+# IDE & Editors
+# ============================================
+.vscode/
+.vscode-settings.json
+.vscode-launch.json
+*.code-workspace
+
+.idea/
+*.iml
+*.iws
+*.ipr
+.idea_modules/
+
+*.swp
+*.swo
+*~
+.DS_Store
+
+.sublime-project
+.sublime-workspace
+
+# Editor temporary files
+*.tmp
+*.bak
+*.backup
+
+# ============================================
+# Node.js & Frontend
+# ============================================
+node_modules/
+npm-debug.log
+npm-debug.log.*
+yarn-debug.log*
+yarn-error.log*
+.pnp
+.pnp.js
+package-lock.json
+yarn.lock
+
+# Frontend builds
+frontend/dist/
+frontend/.nuxt/
+frontend/.cache/
+frontend/.output/
+frontend/coverage/
+frontend/.eslintcache
+frontend/*.tsbuildinfo
+
+# ============================================
+# JetBrains IDEs
+# ============================================
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/dictionaries
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.xml
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/gradle.xml
+.idea/**/libraries
+.idea/replstate.xml
+out/
+.idea_modules/
+atlassian-ide-plugin.xml
+
+# CMake
+cmake-build-debug/
+cmake-build-release/
+
+# Crashlytics
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+# ============================================
+# macOS
+# ============================================
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network\ Trash\ Folder
+Temporary\ Items
+.apdisk
+
+# ============================================
+# Windows
+# ============================================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ============================================
+# Project Specific - Doccano
+# ============================================
+
+# Django media and uploads
+backend/media/
+backend/staticfiles/
+backend/filepond-temp-uploads/
+backend/tmp.txt
+backend/static/admin/
+backend/static/rest_framework/
+
+# Database files
+*.sqlite*
+dump.rdb
+
+# Logs and temporary files
+*.log
+backend/*.log
+frontend/*.log
+logs/
+temp/
+tmp/
+
+# User uploads and exports
+uploads/
+exports/
+downloads/
+
+# Backups
+*.backup
+*.bak
+backups/
+
+# Docker compose overrides
+docker-compose.override.yml
+docker/.env.override
+
+# ============================================
+# Keep Example Files
+# ============================================
+!.env.example
+!.gitkeep
+!.editorconfig
