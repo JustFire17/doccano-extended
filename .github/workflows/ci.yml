@@ -5,6 +5,22 @@ on: [push, pull_request]
 jobs:
   backend:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: doccano
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/doccano
     defaults:
       run:
         working-directory: ./backend
@@ -51,6 +67,8 @@ jobs:
           node-version: '18'
       - name: Install Yarn
         run: npm install -g yarn
+      - name: Configure Git to use HTTPS instead of git://
+        run: git config --global url."https://github.com/".insteadOf git://github.com/
       - name: Install npm modules
         run: yarn install
       - name: Lint
