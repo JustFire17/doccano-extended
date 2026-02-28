@@ -1,15 +1,16 @@
 ARG PYTHON_VERSION="3.8.13-slim-bullseye"
-FROM python:${PYTHON_VERSION} AS backend-builder
+FROM python:${PYTHON_VERSION} AS runtime
+
+WORKDIR /backend
 
 # hadolint ignore=DL3008
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-    netcat=1.* \
     libpq-dev=13.* \
     unixodbc-dev=2.* \
-    g++=4:* \
     libssl-dev=1.* \
     curl \
+    netcat \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
