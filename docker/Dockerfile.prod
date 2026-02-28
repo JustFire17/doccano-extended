@@ -36,7 +36,7 @@ RUN apt-get update \
     unixodbc-dev=2.* \
     libssl-dev=1.* \
     curl \
-    netcat \
+    netcat=1.* \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
