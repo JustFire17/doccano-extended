@@ -124,6 +124,8 @@ Expected result: `PASS (healthy environment)`.
 |--------|----------|---------|
 | `executarDoccanoDevEnv.ps1` | Windows | Starts local development services (backend, celery, frontend) |
 | `executarDoccanoDevEnv.sh` | macOS/Linux | Starts local development services (backend, celery, frontend) |
+| `cleanupDevEnv.ps1` | Windows | Removes database & build artifacts for a fresh start |
+| `cleanupDevEnv.sh` | macOS/Linux | Removes database & build artifacts for a fresh start |
 | `executarDoccanoDocker.ps1` | Windows | Starts Docker-based environment |
 | `executarDoccanoDocker.sh` | macOS/Linux | Starts Docker-based environment |
 | `quickSanityCheck.ps1` | Windows | Runs a quick health check with PASS/FAIL output |

@@ -45,6 +45,46 @@ chmod +x executarDoccanoDevEnv.sh
 
 See [INSTALLATION.md](INSTALLATION.md) for detailed instructions.
 
+### Database Migrations Not Applied
+
+**Error: "no such table: roles_role" or "181 unapplied migration(s)"**
+
+This happens when the database wasn't properly initialized. Solution:
+
+```powershell
+# Clean up old files
+.\cleanupDevEnv.ps1
+
+# Run migrations manually
+cd backend
+$env:DJANGO_SETTINGS_MODULE='config.settings.development'
+poetry run python manage.py migrate
+poetry run python manage.py create_roles
+poetry run python manage.py create_admin --noinput --username admin --email admin@example.com --password admin
+
+# Go back and restart
+cd ..
+.\executarDoccanoDevEnv.ps1
+```
+
+**On macOS/Linux:**
+```bash
+# Clean up old files
+chmod +x cleanupDevEnv.sh
+./cleanupDevEnv.sh
+
+# Run migrations manually
+cd backend
+export DJANGO_SETTINGS_MODULE='config.settings.development'
+poetry run python manage.py migrate
+poetry run python manage.py create_roles
+poetry run python manage.py create_admin --noinput --username admin --email admin@example.com --password admin
+
+# Go back and restart
+cd ..
+./executarDoccanoDevEnv.sh
+```
+
 ### Celery Worker Fails on Windows
 
 For local development, Celery must run with `--pool=solo` on Windows.

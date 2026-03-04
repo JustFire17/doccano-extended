@@ -114,14 +114,46 @@ Write-Host "  Frontend: http://localhost:3000 (or local network URL shown by Nux
 Write-Host "  Admin:    admin / admin"
 Write-Host ""
 
-$backendCmd = "cd '$backend'; `$env:DJANGO_SETTINGS_MODULE='config.settings.development'; poetry run python manage.py migrate; poetry run python manage.py create_roles; poetry run python manage.py create_admin --noinput --username admin --email admin@example.com --password admin 2>`$null; poetry run python manage.py runserver"
-$celeryCmd = "cd '$backend'; `$env:DJANGO_SETTINGS_MODULE='config.settings.development'; poetry run celery --app=config worker --loglevel=INFO --concurrency=1 --pool=solo"
-$frontendCmd = "cd '$frontend'; npm run dev"
+$backendCmd = @"
+`$env:DJANGO_SETTINGS_MODULE='config.settings.development'
+Set-Location '$backend'
+Write-Host "[INFO] Running migrations..." -ForegroundColor Cyan
+poetry run python manage.py migrate
+if (`$LASTEXITCODE -ne 0) {
+    Write-Host "[ERROR] Migrations failed!" -ForegroundColor Red
+}
+Write-Host "[INFO] Creating roles..." -ForegroundColor Cyan
+poetry run python manage.py create_roles
+Write-Host "[INFO] Creating admin user..." -ForegroundColor Cyan
+poetry run python manage.py create_admin --noinput --username admin --email admin@example.com --password admin
+Write-Host "[INFO] Starting Django development server..." -ForegroundColor Green
+poetry run python manage.py runserver
+"@
+
+$celeryCmd = @"
+`$env:DJANGO_SETTINGS_MODULE='config.settings.development'
+Set-Location '$backend'
+Write-Host "[INFO] Starting Celery worker..." -ForegroundColor Green
+poetry run celery --app=config worker --loglevel=INFO --concurrency=1 --pool=solo
+"@
+
+$frontendCmd = @"
+Set-Location '$frontend'
+Write-Host "[INFO] Starting Nuxt frontend..." -ForegroundColor Green
+npm run dev
+"@
 
 Start-Process powershell -ArgumentList @("-NoExit", "-Command", $backendCmd)
-Start-Sleep -Seconds 2
+Start-Sleep -Seconds 3
 Start-Process powershell -ArgumentList @("-NoExit", "-Command", $celeryCmd)
-Start-Sleep -Seconds 2
+Start-Sleep -Seconds 3
 Start-Process powershell -ArgumentList @("-NoExit", "-Command", $frontendCmd)
 
 Write-Host "[OK] All services started in separate PowerShell windows"
+Write-Host ""
+Write-Host "[TIPS] Setup Tips:"
+Write-Host "  - If backends fail, migrations may not have run. Check backend terminal for errors."
+Write-Host "  - If frontend shows 'port in use', edit .env and change FRONTEND_PORT=3001"
+Write-Host "  - To validate, run: .\quickSanityCheck.ps1"
+Write-Host ""
+Write-Host "[NEXT] Open http://localhost:3000 in your browser"

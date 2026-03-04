@@ -49,6 +49,16 @@ Run quick health validation:
 .\quickSanityCheck.ps1
 ```
 
+**If Backend Fails (e.g., "181 unapplied migrations"):**
+
+```powershell
+# Clean up and try again
+.\cleanupDevEnv.ps1
+.\executarDoccanoDevEnv.ps1
+```
+
+See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for more solutions.
+
 ### Option 2: Docker Setup
 
 ```powershell
