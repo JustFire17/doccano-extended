@@ -325,6 +325,11 @@ MEDIA_URL = "/media/"
 DJANGO_DRF_FILEPOND_UPLOAD_TMP = path.join(BASE_DIR, "filepond-temp-uploads")
 DJANGO_DRF_FILEPOND_FILE_STORE_PATH = MEDIA_ROOT
 
+# Create directories if they don't exist (Windows fix for FileExistsError)
+import os
+os.makedirs(DJANGO_DRF_FILEPOND_UPLOAD_TMP, mode=0o700, exist_ok=True)
+os.makedirs(MEDIA_ROOT, exist_ok=True)
+
 # File upload setting
 MAX_UPLOAD_SIZE = env.int("MAX_UPLOAD_SIZE", pow(1024, 3))  # default: 1GB per a file
 ENABLE_FILE_TYPE_CHECK = env.bool("ENABLE_FILE_TYPE_CHECK", False)
