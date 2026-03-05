@@ -57,7 +57,7 @@ This extended version adds a practical developer workflow with cross-platform st
 | Frontend | Nuxt.js 2 (v2.18), Vue 2 (v2.6), TypeScript |
 | Database | SQLite (local development), PostgreSQL (Docker/production) |
 | Message Broker | SQLAlchemy + SQLite (local development), RabbitMQ/Redis (Docker/production) |
-| Deployment | Docker, Docker Compose, AWS, Heroku |
+| Deployment | Docker, Docker Compose |
 | Python | 3.10+ |
 
 ## ⚡ Quick Start (5 Minutes)
@@ -312,19 +312,6 @@ Access at **http://127.0.0.1/**
 - Frontend: http://127.0.0.1
 - API: http://127.0.0.1/api
 - Admin: http://127.0.0.1/admin
-
----
-
-## 🚀 Deployment Options
-
-| Service | Status |
-|---------|--------|
-| AWS CloudFormation | [![CloudFormation Button](https://cdn.rawgit.com/buildkite/cloudformation-launch-stack-button-svg/master/launch-stack.svg)](https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=doccano&templateURL=https://doccano.s3.amazonaws.com/public/cloudformation/template.aws.yaml) |
-| Heroku | [![Heroku Button](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?template=https%3A%2F%2Fgithub.com%2Fdoccano%2Fdoccano) |
-
-**AWS Notes:**
-- EC2 KeyPair must be pre-created in your region ([How to create](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair))
-- For HTTPS setup: See [AWS HTTPS Configuration](https://github.com/doccano/doccano/wiki/HTTPS-setting-for-doccano-in-AWS)
 
 ---
 

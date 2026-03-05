@@ -313,15 +313,6 @@ Then, you can install the package via `pip install` command:
 pip install doccano-1.5.5.post335.dev0+6be6d198-py3-none-any.whl
 ```
 
-## Install to cloud
-
-doccano also supports one-click deployment to cloud providers. Click the following button, configure the environment, and access the UI.
-
-| Service | Button |
-|---------|---|
-| AWS   | [![AWS CloudFormation Launch Stack SVG Button](https://cdn.rawgit.com/buildkite/cloudformation-launch-stack-button-svg/master/launch-stack.svg)](https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=doccano&templateURL=https://doccano.s3.amazonaws.com/public/cloudformation/template.aws.yaml)  |
-| Heroku  | [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?template=https%3A%2F%2Fgithub.com%2Fdoccano%2Fdoccano)  |
-
 ## Upgrade doccano
 
 Caution: If you use SQLite3 as a database, upgrading the package would lose your database.
