@@ -54,7 +54,6 @@ Also, you can set the following environment variables:
 | .env.example            | The example of `.env` file. This is used only in `docker-compose.prod.yml`.                                              |
 | docker-compose.prod.yml | This file contains Docker Compose configuration to run a production environment. We adopted the three tier architecture. |
 | Dockerfile              | The dockerfile. You can pull the image from [doccano/doccano](https://hub.docker.com/r/doccano/doccano).                 |
-| Dockerfile.heroku       | The dockerfile for Heroku.                                                                                               |
 | Dockerfile.nginx        | The dockerfile to build nginx container. This is used only in `docker-compose.prod.yml`.                                 |
 | Dockerfile.prod         | The dockerfile to build application container. This is used only in `docker-compose.prod.yml`.                           |
 
@@ -77,7 +76,6 @@ The `tools` directory contains some shell scripts. They are mainly used in Docke
 |       file        |                                                     description                                                      |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------- |
 | create-package.sh | This script creates doccano's Python package. Note that yarn and poetry must already be installed.                   |
-| heroku.sh         | This script is used to create django's superuser in Heroku.                                                          |
 | prod-celery.sh    | This script is used to run celery in `docker-compose.prod.yml`.                                                      |
 | prod-flower.sh    | This script is used to run Flower in `docker-compose.prod.yml`.                                                      |
 | prod-django.sh    | This script is used to run gunicorn in `docker-compose.prod.yml`. In addition, create roles, superuser, and migrate. |
