@@ -1,13 +1,18 @@
 [tool.poetry]
 name = "doccano"
 version = "1.8.4"
-description = "doccano, text annotation tool for machine learning practitioners"
-authors = ["Hironsan <hiroki.nakayama.py@gmail.com>"]
+description = "doccano-extended, text annotation tool with advanced features for quality assurance and collaboration"
+authors = [
+    "André Guerreiro",
+    "Fábio Godinho", 
+    "Rui Saraiva",
+    "Sérgio Boico",
+    "Vasco Evaristo"
+]
 license = "MIT"
-readme = "README.md"
-homepage = "https://doccano.github.io/doccano/"
-repository = "https://github.com/doccano/doccano"
-documentation = "https://doccano.github.io/doccano/"
+homepage = "https://github.com/JustFire17/doccano-extended"
+repository = "https://github.com/JustFire17/doccano-extended"
+documentation = "https://github.com/JustFire17/doccano-extended"
 classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3.8",
