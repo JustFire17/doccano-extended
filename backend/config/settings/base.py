@@ -11,17 +11,16 @@ Any setting that is configured via an environment variable may
 also be set in a `.env` file in the project base directory.
 """
 import os
-from os import path
 
 import dj_database_url
 from environs import Env, EnvError
 from furl import furl
 
-# Build paths inside the project like this: path.join(BASE_DIR, ...)
-BASE_DIR = path.dirname(path.dirname(path.dirname(path.abspath(__file__))))
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 env = Env()
-env.read_env(path.join(BASE_DIR, ".env"), recurse=False)
+env.read_env(os.path.join(BASE_DIR, ".env"), recurse=False)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -100,7 +99,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [path.join(BASE_DIR, "client/dist")],
+        "DIRS": [os.path.join(BASE_DIR, "client/dist")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -116,9 +115,9 @@ TEMPLATES = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 STATIC_URL = "/static/"
-STATIC_ROOT = path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [
-    path.join(BASE_DIR, "client/dist/static"),
+    os.path.join(BASE_DIR, "client/dist/static"),
 ]
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
@@ -207,7 +206,7 @@ USE_TZ = True
 
 # Testing
 TEST_RUNNER = "xmlrunner.extra.djangotestrunner.XMLTestRunner"
-TEST_OUTPUT_DIR = path.join(BASE_DIR, "junitxml")
+TEST_OUTPUT_DIR = os.path.join(BASE_DIR, "junitxml")
 
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/projects/"
@@ -218,7 +217,7 @@ LOGOUT_REDIRECT_URL = "/"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": path.join(BASE_DIR, "db.sqlite3"),
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
 # Change 'default' database configuration with $DATABASE_URL.
@@ -319,15 +318,14 @@ if not EMAIL_HOST:
 
 
 # User media files
-MEDIA_ROOT = env("MEDIA_ROOT", path.join(BASE_DIR, "media"))
+MEDIA_ROOT = env("MEDIA_ROOT", os.path.join(BASE_DIR, "media"))
 MEDIA_URL = "/media/"
 
 # Filepond settings
-DJANGO_DRF_FILEPOND_UPLOAD_TMP = path.join(BASE_DIR, "filepond-temp-uploads")
+DJANGO_DRF_FILEPOND_UPLOAD_TMP = os.path.join(BASE_DIR, "filepond-temp-uploads")
 DJANGO_DRF_FILEPOND_FILE_STORE_PATH = MEDIA_ROOT
 
 # Create directories if they don't exist (Windows fix for FileExistsError)
-import os
 os.makedirs(DJANGO_DRF_FILEPOND_UPLOAD_TMP, mode=0o700, exist_ok=True)
 os.makedirs(MEDIA_ROOT, exist_ok=True)
 
