@@ -1,0 +1,32 @@
+# Project information
+site_name: "doccano-extended"
+site_description: "Extended Text Annotation Platform - Academic Project"
+site_author: "JustFire17"
+site_url: "https://github.com/JustFire17/doccano-extended"
+docs_dir: .
+
+# Repository
+repo_name: "JustFire17/doccano-extended"
+repo_url: "https://github.com/JustFire17/doccano-extended"
+
+# Copyright
+copyright: "Copyright &copy; 2025 - Extended from doccano by Hiroki Nakayama"
+
+theme:
+  name: "material"
+  palette:
+    primary: "cyan"
+    accent: "cyan"
+  show_sidebar: true
+
+extra:
+  social:
+    - icon: "fontawesome/brands/github"
+      link: "https://github.com/JustFire17"
+
+plugins:
+  - same-dir
+
+# Page tree
+nav:
+  - Developer guide: developer_guide.md
