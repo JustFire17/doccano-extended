@@ -16,12 +16,13 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp
-COPY backend/pyproject.toml backend/poetry.lock /tmp/
+COPY backend/pyproject.toml /tmp/
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN pip install -U --no-cache-dir pip==22.2.2 setuptools==61.0.0 \
  && curl -sSL https://install.python-poetry.org | python - --version 1.5.1\
  && export PATH="/root/.local/bin:$PATH" \
+ && poetry lock --no-interaction \
  && poetry export --without-hashes -o /requirements.txt \
  && echo "channels_redis==4.1.0" >> /requirements.txt \
  && echo "uvicorn==0.22.0" >> /requirements.txt \
@@ -59,8 +60,8 @@ RUN mkdir -p /backend/staticfiles \
   && chmod +x /opt/bin/*.sh \
   && chown -R doccano:doccano /backend/
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 USER doccano:doccano
 VOLUME /backend/staticfiles
 

@@ -30,12 +30,13 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp
-COPY backend/pyproject.toml backend/poetry.lock /tmp/
+COPY backend/pyproject.toml /tmp/
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN pip install -U --no-cache-dir pip==22.2.2 \
  && curl -sSL https://install.python-poetry.org | python - \
  && export PATH="/root/.local/bin:$PATH" \
+ && poetry lock --no-interaction \
  && poetry export --without-hashes -o /requirements.txt \
  && echo "psycopg2-binary==2.8.6" >> /requirements.txt \
  && echo "django-heroku==0.3.1" >> /requirements.txt \
