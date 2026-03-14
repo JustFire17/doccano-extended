@@ -17,16 +17,17 @@ export const useTeacherList = (repository: any) => {
 
   const checkPerspectives = async (projectId: string) => {
     try {
-      const perspectives = await window.$nuxt.$services.perspective.list(projectId)
+      const nuxt = window.$nuxt as any
+      const perspectives = await nuxt.$services.perspective.list(projectId)
 
       if (!perspectives || perspectives.length === 0) {
         alert('No perspectives created')
         return false
       }
 
-      const filledValues = await window.$nuxt.$services.perspective.getFilledValues(projectId)
+      const filledValues = await nuxt.$services.perspective.getFilledValues(projectId)
 
-      const allFilled = perspectives.every((perspective) => {
+      const allFilled = perspectives.every((perspective: any) => {
         const value = filledValues[perspective.id]
         return value !== undefined && value !== ''
       })
@@ -35,7 +36,7 @@ export const useTeacherList = (repository: any) => {
         alert(
           'You need to fill in all perspectives before you can annotate. You will be redirected to the perspective filling page.'
         )
-        window.$nuxt.$router.push(`/projects/${projectId}/perspective/fill`)
+        nuxt.$router.push(`/projects/${projectId}/perspective/fill`)
         return false
       }
 
@@ -48,7 +49,7 @@ export const useTeacherList = (repository: any) => {
 
   const checkProjectStatus = async (projectId: string) => {
     try {
-      const project = await window.$nuxt.$services.project.findById(projectId)
+      const project = await (window.$nuxt as any).$services.project.findById(projectId)
       if (project.closed) {
         alert('Este projeto está fechado. Não é possível fazer anotações.')
         return false

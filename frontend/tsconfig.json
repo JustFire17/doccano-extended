@@ -17,8 +17,8 @@
       "@/*": ["./*"]
     },
     "jsx": "preserve",
-    "types": ["@types/node", "@nuxt/types", "nuxt-i18n"],
-    "typeRoots": ["./types", "./node_modules/@types"]
+    "types": ["node", "@nuxt/types", "nuxt-i18n"],
+    "skipLibCheck": true
   },
   "exclude": ["node_modules"]
 }

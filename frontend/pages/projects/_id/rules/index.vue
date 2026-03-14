@@ -315,86 +315,19 @@
   </v-container>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue'
 import { dateFormat } from '@vuejs-community/vue-filter-date-format'
 import { dateParse } from '@vuejs-community/vue-filter-date-parse'
 import { mdiCheck, mdiClose, mdiLock } from '@mdi/js'
-import { Context } from '@nuxt/types'
-import { Rule } from '@/domain/models/rule/rule'
 
-interface ComponentData {
-  isLoading: boolean
-  rules: Rule[]
-  selected: Rule[]
-  createDialog: boolean
-  deleteDialog: boolean
-  voteDialog: boolean
-  closeVoteDialog: boolean
-  reopenVoteDialog: boolean
-  dateMenu: boolean
-  timeMenu: boolean
-  voteType: 'upvote' | 'downvote' | null
-  ruleToVote: Rule | null
-  ruleToCloseVote: Rule | null
-  ruleToReopenVote: Rule | null
-  newRule: {
-    name: string
-    description: string
-    votingEndDate: string
-    votingEndTime: string
-  }
-  baseHeaders: Array<{ text: string; value: string }>
-  isProjectAdmin: boolean
-  errorMessage: string
-  showError: boolean
-  mdiCheck: string
-  mdiClose: string
-  mdiLock: string
-  project: any
-  valid: boolean
-  newVotingEndDate: string
-  reopenDateMenu: boolean
-  reopenTimeMenu: boolean
-  newVotingEndTime: string
-  checkInterval: NodeJS.Timeout | null
-}
-
-interface ComponentMethods {
-  loadRules(): Promise<void>
-  createRule(): Promise<void>
-  deleteRules(): Promise<void>
-  getUserVote(rule: Rule): 'upvote' | 'downvote' | null
-  isVotingEnded(rule: Rule): boolean
-  upvoteRule(rule: Rule): Promise<void>
-  downvoteRule(rule: Rule): Promise<void>
-  confirmVote(): Promise<void>
-  voteRule(rule: Rule, isUpvote: boolean): Promise<void>
-  confirmCloseVote(rule: Rule): void
-  executeCloseVote(): Promise<void>
-  closeRuleVote(rule: Rule): Promise<void>
-  confirmReopenVote(rule: Rule): void
-  executeReopenVote(): Promise<void>
-  reopenRuleVote(rule: Rule): Promise<void>
-  getVoteColor(percentage: number): string
-  formatDate(date: string | Date): string
-  getItemClass(item: Rule): string
-  checkVotingStatus(): Promise<void>
-}
-
-interface ComponentComputed {
-  headers: any[]
-  minDate: string
-  minTime: string
-}
-
-export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
+export default Vue.extend({
   layout: 'project',
   middleware: ['check-auth', 'auth', 'setCurrentProject'],
-  validate(context: Context) {
-    return /^\d+$/.test(context.params.id)
+  validate({ params }) {
+    return /^\d+$/.test(params.id)
   },
-  data(): ComponentData {
+  data() {
     return {
       isLoading: false,
       rules: [],
@@ -439,7 +372,7 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
     }
   },
   computed: {
-    headers(): any[] {
+    headers() {
       const voteHeaders = this.isProjectAdmin
         ? [
             { text: 'Status', value: 'votePercentage', align: 'center', width: '300px' },
@@ -452,10 +385,10 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
 
       return [...this.baseHeaders.slice(0, 2), ...voteHeaders, ...this.baseHeaders.slice(2)]
     },
-    minDate(): string {
+    minDate() {
       return new Date().toISOString().substr(0, 10)
     },
-    minTime(): string {
+    minTime() {
       const now = new Date()
       const hours = now.getHours().toString().padStart(2, '0')
       const minutes = now.getMinutes().toString().padStart(2, '0')
@@ -521,7 +454,7 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
         )
         this.createDialog = false
         this.loadRules()
-      } catch (error: any) {
+      } catch (error) {
         if (error.response?.status === 500) {
           this.errorMessage = 'Database unavailable. Please try again later'
         } else {
@@ -554,7 +487,7 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
         this.rules = this.rules.filter((rule) => !rulesToDelete.includes(rule))
         this.selected = []
         this.deleteDialog = false
-      } catch (error: any) {
+      } catch (error) {
         if (error.response?.status === 500) {
           this.errorMessage = 'Database unavailable. Please try again later.'
         } else {
@@ -563,10 +496,10 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
         this.showError = true
       }
     },
-    getUserVote(rule: Rule): 'upvote' | 'downvote' | null {
+    getUserVote(rule) {
       return rule.userVote || null
     },
-    isVotingEnded(rule: Rule): boolean {
+    isVotingEnded(rule) {
       if (!rule.votingEndDate) return false
 
       const now = new Date()
@@ -586,7 +519,7 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
 
       return now > endDate || rule.votingClosed
     },
-    async upvoteRule(rule: Rule) {
+    async upvoteRule(rule) {
       if (this.isVotingEnded(rule)) {
         this.errorMessage = 'Voting has ended for this rule'
         this.showError = true
@@ -603,7 +536,7 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
         this.voteDialog = true
       }
     },
-    async downvoteRule(rule: Rule) {
+    async downvoteRule(rule) {
       if (this.isVotingEnded(rule)) {
         this.errorMessage = 'Voting has ended for this rule'
         this.showError = true
@@ -627,7 +560,7 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
         this.ruleToVote = null
       }
     },
-    async voteRule(rule: Rule, isUpvote: boolean) {
+    async voteRule(rule, isUpvote) {
       try {
         if (rule.version !== this.project.version) {
           this.errorMessage = 'Cannot vote on rules from previous project versions'
@@ -644,7 +577,7 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
         const projectId = parseInt(this.$route.params.id, 10)
         await this.$services.project.voteRule(projectId, rule.id, isUpvote)
         await this.loadRules()
-      } catch (error: any) {
+      } catch (error) {
         console.error('Error voting on rule:', error)
         if (error.response?.status === 500) {
           this.errorMessage =
@@ -657,12 +590,12 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
         this.showError = true
       }
     },
-    getVoteColor(percentage: number): string {
+    getVoteColor(percentage) {
       if (percentage >= 75) return 'success'
       if (percentage >= 50) return 'warning'
       return 'error'
     },
-    formatDate(date: string | Date): string {
+    formatDate(date) {
       if (!date) return '-'
       try {
         const parsedDate = typeof date === 'string' ? dateParse(date) : date
@@ -672,7 +605,7 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
         return '-'
       }
     },
-    confirmCloseVote(rule: Rule) {
+    confirmCloseVote(rule) {
       this.ruleToCloseVote = rule
       this.closeVoteDialog = true
     },
@@ -683,13 +616,13 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
         this.ruleToCloseVote = null
       }
     },
-    async closeRuleVote(rule: Rule) {
+    async closeRuleVote(rule) {
       try {
         const projectId = parseInt(this.$route.params.id, 10)
         const updatedRule = await this.$services.project.closeRuleVote(projectId, rule.id)
         console.log('Regra após fechar votação:', updatedRule)
         await this.loadRules()
-      } catch (error: any) {
+      } catch (error) {
         console.error('Error closing rule vote:', error)
         if (error.response?.status === 500) {
           this.errorMessage =
@@ -702,7 +635,7 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
         this.showError = true
       }
     },
-    confirmReopenVote(rule: Rule) {
+    confirmReopenVote(rule) {
       this.ruleToReopenVote = rule
       this.newVotingEndDate = ''
       this.newVotingEndTime = ''
@@ -720,7 +653,7 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
         this.ruleToReopenVote = null
       }
     },
-    async reopenRuleVote(rule: Rule) {
+    async reopenRuleVote(rule) {
       try {
         const projectId = parseInt(this.$route.params.id, 10)
         const updatedRule = await this.$services.project.reopenRuleVote(
@@ -731,7 +664,7 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
         )
         console.log('Regra após reabrir votação:', updatedRule)
         await this.loadRules()
-      } catch (error: any) {
+      } catch (error) {
         console.error('Error reopening rule vote:', error)
         if (error.response?.status === 500) {
           this.errorMessage =
@@ -744,7 +677,7 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
         this.showError = true
       }
     },
-    getItemClass(item: Rule) {
+    getItemClass(item) {
       return item.version !== this.project.version ? 'disabled-row' : ''
     },
     async checkVotingStatus() {
@@ -783,6 +716,7 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
 
 .description-text {
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -792,6 +726,7 @@ export default Vue.extend<ComponentData, ComponentMethods, ComponentComputed>({
 }
 
 .description-text.expanded {
+  line-clamp: initial;
   -webkit-line-clamp: initial;
   max-height: none;
 }

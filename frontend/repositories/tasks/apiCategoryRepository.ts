@@ -20,7 +20,7 @@ export class APICategoryRepository extends AnnotationRepository<Category> {
     try {
       const url = `${this.baseUrl(projectId, exampleId)}/${labelId}`
       await this.request.delete(url)
-    } catch (error) {
+    } catch (error: any) {
       if (error.response?.status === 403) {
         alert('Não é possível remover anotações em um projeto fechado.')
       } else if (error.response?.status === 404) {
