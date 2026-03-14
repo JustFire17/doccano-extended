@@ -1,3 +1,7 @@
+import datetime
+
+from django.conf import settings
+from django.utils import timezone
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_polymorphic.serializers import PolymorphicSerializer
@@ -220,6 +224,46 @@ class RuleSerializer(serializers.ModelSerializer):
             return None
 
         return obj.get_user_vote(request.user)
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+
+        if self._should_hide_vote_results(instance):
+            data["upvotes_count"] = None
+            data["downvotes_count"] = None
+            data["vote_percentage"] = None
+
+        return data
+
+    def _should_hide_vote_results(self, rule):
+        request = self.context.get("request")
+        if not request or not request.user.is_authenticated:
+            return False
+
+        if request.user.is_superuser:
+            return False
+
+        is_project_admin = Member.objects.has_role(rule.project_id, request.user, settings.ROLE_PROJECT_ADMIN)
+        if is_project_admin:
+            return False
+
+        return self._is_voting_open(rule)
+
+    def _is_voting_open(self, rule):
+        if rule.voting_closed:
+            return False
+
+        if not rule.voting_end_date:
+            return True
+
+        voting_end_time = rule.voting_end_time or datetime.time(23, 59, 59)
+        voting_end_dt = datetime.datetime.combine(rule.voting_end_date, voting_end_time)
+        current_tz = timezone.get_current_timezone()
+
+        if timezone.is_naive(voting_end_dt):
+            voting_end_dt = timezone.make_aware(voting_end_dt, current_tz)
+
+        return timezone.now() <= voting_end_dt
 
     def validate(self, data):
         try:

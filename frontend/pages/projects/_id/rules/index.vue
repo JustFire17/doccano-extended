@@ -66,13 +66,14 @@
                 </div>
               </template>
               <template #[`item.votePercentage`]="{ item }">
-                <div v-if="!isProjectAdmin && !isVotingEnded(item) && !item.votingClosed">
-                  <span class="white--text">Voting In Progress</span>
+                <div v-if="!isProjectAdmin && !isVotingEnded(item)">
+                  <span class="white--text">Voting is Ongoing</span>
                 </div>
                 <div v-else-if="item.upvotesCount + item.downvotesCount === 0">
                   <span class="white--text">No Votes Recorded</span>
                 </div>
                 <v-progress-linear
+                  v-else
                   :value="item.votePercentage"
                   :color="getVoteColor(item.votePercentage)"
                   height="20"
