@@ -10,7 +10,6 @@ This version focuses on practical product enhancements for annotation governance
 Project completion: March 2025.
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/35ac8625a2bc4eddbff23dbc61bc6abb)](https://www.codacy.com/gh/JustFire17/doccano-extended/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JustFire17/doccano-extended&amp;utm_campaign=Badge_Grade)
-[![doccano CI](https://github.com/JustFire17/doccano-extended/actions/workflows/ci.yml/badge.svg)](https://github.com/JustFire17/doccano-extended/actions/workflows/ci.yml)
 
 ## What This Extension Adds
 
