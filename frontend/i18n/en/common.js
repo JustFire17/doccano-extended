@@ -1,0 +1,21 @@
+export default {
+  cancel: 'Cancel',
+  confirm: 'Confirm',
+  create: 'Create',
+  close: 'Close',
+  save: 'Save',
+  edit: 'Edit',
+  delete: 'Delete',
+  back: 'Back',
+  next: 'Next',
+  previous: 'Previous',
+  search: 'Search',
+  filter: 'Filter',
+  clear: 'Clear',
+  loading: 'Loading...',
+  noData: 'No data available',
+  error: 'Error',
+  success: 'Success',
+  warning: 'Warning',
+  info: 'Information'
+} 
